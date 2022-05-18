@@ -79,46 +79,68 @@ if (keccak256(abi.encodePacked(_paperType)) == keccak256(abi.encodePacked("Updat
         
     }
 
-function isAuthor(address _author) public view returns(bool) {
-        return identities[_author].author;
-    }
-function isPublisher(address _publisher) public view returns(bool) {
-        return identities[_publisher].publisher;
-    }
-function isReviewer(address _reviewer) public view returns(bool) {
-        return identities[_reviewer].reviewer;
-    }
 function newUser(address wallet,string memory _name) public {
     require(msg.sender==admin,"only admin can add users");
         identities[wallet].userId=userIds;
         userIds++;
         identities[wallet].userName=_name;
 }
-    function setAuthor(address _author) public {
-        require(msg.sender==admin,"only admin can set author");
-        identities[_author].author=true;
+function getName(address _user) public view returns (string memory _name){
+    require(identities[_user].userId!=0,"No such user in the system");
+    _name=identities[_user].userName;
+}
+function isUser(address _user) public view returns (bool){
+    if(identities[_user].userId==0){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+function isAuthor(address _user) public view returns(bool) {
+     require(identities[_user].userId!=0,"No such user in the system");
+        return identities[_user].author;
+    }
+function isPublisher(address _user) public view returns(bool) {
+     require(identities[_user].userId!=0,"No such user in the system");
+        return identities[_user].publisher;
+    }
+function isReviewer(address _user) public view returns(bool) {
+     require(identities[_user].userId!=0,"No such user in the system");
+        return identities[_user].reviewer;
     }
 
-    function setReviewer(address _reviewer) public {
+    function setAuthor(address _user) public {
         require(msg.sender==admin,"only admin can set author");
-        identities[_reviewer].reviewer=true;
-    }
-    function setPublisher(address _publisher) public {
-        require(msg.sender==admin,"only admin can set author");
-        identities[_publisher].publisher=true;
+         require(identities[_user].userId!=0,"No such user in the system");
+        identities[_user].author=true;
     }
 
-    function cancelAuthor(address _author) public {
+    function setReviewer(address _user) public {
         require(msg.sender==admin,"only admin can set author");
-        identities[_author].author=false;
+         require(identities[_user].userId!=0,"No such user in the system");
+        identities[_user].reviewer=true;
+    }
+    function setPublisher(address _user) public {
+        require(msg.sender==admin,"only admin can set author");
+        require(identities[_user].userId!=0,"No such user in the system");
+        identities[_user].publisher=true;
     }
 
-    function cancelReviewer(address _reviewer) public {
+    function cancelAuthor(address _user) public {
         require(msg.sender==admin,"only admin can set author");
-        identities[_reviewer].reviewer=false;
+        require(identities[_user].userId!=0,"No such user in the system");
+        identities[_user].author=false;
     }
-    function cancelPublisher(address _publisher) public {
+
+    function cancelReviewer(address _user) public {
         require(msg.sender==admin,"only admin can set author");
-        identities[_publisher].publisher=false;
+        require(identities[_user].userId!=0,"No such user in the system");
+        identities[_user].reviewer=false;
+    }
+    function cancelPublisher(address _user) public {
+        require(msg.sender==admin,"only admin can set author");
+        require(identities[_user].userId!=0,"No such user in the system");
+        identities[_user].publisher=false;
     }
 }
