@@ -7,6 +7,7 @@ contract SHEBA {
     uint public userIds = 1;
     address public admin;
     mapping(uint256 => File) public files;
+    mapping(uint256 => address) public userById;
     mapping(address => Identity) public identities;
 
     struct File {
@@ -32,7 +33,9 @@ contract SHEBA {
     constructor(){
         admin=msg.sender;
         identities[admin].userId=userIds;
+        userById[identities[admin].userId]=admin;
         userIds++;
+        
         identities[admin].userName = "Yonatan Martsiano";
         identities[admin].reviewer=true;
         identities[admin].publisher=true;
@@ -82,6 +85,7 @@ if (keccak256(abi.encodePacked(_paperType)) == keccak256(abi.encodePacked("Updat
 function newUser(address wallet,string memory _name) public {
     require(msg.sender==admin,"only admin can add users");
         identities[wallet].userId=userIds;
+        userById[identities[wallet].userId]=wallet;
         userIds++;
         identities[wallet].userName=_name;
 }
