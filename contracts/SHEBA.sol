@@ -102,15 +102,12 @@ function isUser(address _user) public view returns (bool){
 }
 
 function isAuthor(address _user) public view returns(bool) {
-     require(identities[_user].userId!=0,"No such user in the system");
         return identities[_user].author;
     }
 function isPublisher(address _user) public view returns(bool) {
-     require(identities[_user].userId!=0,"No such user in the system");
         return identities[_user].publisher;
     }
 function isReviewer(address _user) public view returns(bool) {
-     require(identities[_user].userId!=0,"No such user in the system");
         return identities[_user].reviewer;
     }
 
