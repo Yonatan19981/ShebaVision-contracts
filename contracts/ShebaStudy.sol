@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract SHEBASTUDY {
-    // status : 0 open for review,1 under review,2 approved,3 need revision
+    // status : 0 open for review,1 under review,2 approved,3 need revision, 4 reviewFile
     string public name = "SHEBASTUDY";
     uint256 public fileCount = 1;
     uint public userIds = 1;
@@ -82,7 +82,8 @@ uint _updatedNumber=0;
 if (_review) {
   require(identities[msg.sender].reviewer,"only reviewers can upload reviews");
   require(files[_connectedTo].publisher==identities[msg.sender].employer,"Reviewer is not working for this publisher");
-    _status=1;
+  files[_connectedTo].status=1;
+    _status=4;
     _publisher=address(0);
 
 }
